@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login pt-3">
     <h1>This is a login page</h1>
     <div class="container">
       <div class="row">
@@ -12,7 +12,7 @@
                 class="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
-                placeholder="Username"
+                placeholder="Phone number, username, or email"
               />
             </div>
             <div class="form-group">
@@ -23,19 +23,10 @@
                 placeholder="Password"
               />
             </div>
-            <div class="form-group form-check">
-              
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="loginRemember1"
-              />
-              <label class="form-check-label" for="loginRemember1">Remember me</label>
-            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
             <!-- YOU DON'T HAVE AN ACCOUNT? SIGN UP -->
             <p class="new-account">
-              You don't have an account?
+              Don't have an account?
               <a href="/signup"> Sign up </a>
             </p>
           </form>

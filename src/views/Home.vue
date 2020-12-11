@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container pt-3">
     <div class="row">
       <div class="col-1"></div>
       <div class="col-7">
@@ -11,7 +11,7 @@
           <instagram-card v-for="card in filterCards" :key="card.url" :info="card"/>
         </div>
       </div>
-      <div class="col-3 mt-5">
+      <div class=" fixed-top col-3 offset-8 mt-5">
         Suggestions For You
         <suggestion-for-you v-for="user in users" :key="user.username" :info2="user"/>
       </div>
