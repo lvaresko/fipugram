@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <nav id="nav" class="navbar navbar-expand-lg py-0 navbar-light  bg-white fixed-top">
+    <nav
+      id="nav"
+      class="navbar navbar-expand-lg py-0 navbar-light bg-white fixed-top"
+    >
       <router-link to="/" class="navbar-brand">
         <img
           src="@/assets/fipu_logo.png"
@@ -23,14 +26,23 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarToggler">
         <form id="search" class="navbar-form form-inline ml-auto">
-          <input  v-model="store.searchTerm" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <input
+            v-model="store.searchTerm"
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
         </form>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item py-0">
+          <li v-if="!store.currentUser" class="nav-item py-0">
             <router-link to="/login" class="nav-link">Login</router-link>
           </li>
-          <li class="nav-item py-0">
+          <li v-if="!store.currentUser" class="nav-item py-0">
             <router-link to="/signup" class="nav-link">Sign up</router-link>
+          </li>
+          <li v-if="store.currentUser" class="nav-item py-0">
+            <a href="#" @click.prevent="logout()" class="nav-link">Logout</a>
           </li>
         </ul>
       </div>
@@ -45,6 +57,30 @@
 
 <script>
 import store from '@/store';
+import { firebase } from '@/firebase';
+import router from '@/router';
+
+firebase.auth().onAuthStateChanged((user) => {
+ const currentRoute = router.currentRoute;
+ 
+ if (user) {
+    // User is signed in.
+    console.log('*** User', user.email);
+    store.currentUser = user.email;
+
+    if (!currentRoute.meta.needsAuth) {
+        router.push({ name: 'home' });
+    }
+ } else {
+    // User is not signed in.
+    console.log('*** No user');
+    store.currentUser = null;
+    //kick me out
+    if (currentRoute.meta.needsAuth) {
+        router.push({ name: 'login' });
+    }
+  }
+});
 
 export default {
   name: 'app',
@@ -52,6 +88,11 @@ export default {
     return {
       store
     };
+  },
+  methods: {
+      logout() {
+        firebase.auth().signOut().then(() => this.$router.push({ name: 'login' }));
+      },
   },
 };
 </script>
@@ -79,7 +120,7 @@ export default {
 }
 
 #search {
-    display: block;
-    text-align: center;
+  display: block;
+  text-align: center;
 }
 </style>

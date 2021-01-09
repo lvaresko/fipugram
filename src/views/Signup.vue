@@ -7,7 +7,9 @@
         <div class="col-sm">
           <form>
             <div class="form-group">
-              <label form="exampleInputNumberEmail">Mobile number or email</label>
+              <label form="exampleInputNumberEmail"
+                >Mobile number or email</label
+              >
               <input
                 type="text"
                 v-model="number_email"
@@ -70,24 +72,27 @@ export default {
   name: "Signup",
   data() {
     return {
-      number_email: "",
-      //username: '',
+      username: '',
       password: "",
       passwordRepeat: "",
     };
   },
   methods: {
     signup() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.number_email, this.password)
-        .then(function() {
-          console.log("Uspješna registracija");
-        })
-        .catch(function(error) {
-          console.error("Došlo je do pogreške", error);
-        });
-      console.log("Nastavak");
+      if ((this.password = this.passwordRepeat)) {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.username, this.password)
+          .then(function() {
+            console.log("Uspješna registracija");
+          })
+          .catch(function(error) {
+            console.error("Došlo je do pogreške", error);
+          });
+        console.log("Nastavak");
+      } else {
+        alert("Lozinke se ne podudaraju!");
+      }
     },
   },
 };
